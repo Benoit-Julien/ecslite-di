@@ -59,7 +59,7 @@ namespace Leopotam.EcsLite.Di {
             return false;
         }
 
-        public static ref T NewEntity<T> (this in EcsPoolInject<T> poolInject, out int entity) where T : struct {
+        public static ref T NewEntity<T> (this in EcsPoolInject<T> poolInject, out int entity) where T : struct, IComponent {
             entity = poolInject.Value.GetWorld ().NewEntity ();
             return ref poolInject.Value.Add (entity);
         }
@@ -115,7 +115,7 @@ namespace Leopotam.EcsLite.Di {
         }
     }
 
-    public struct EcsPoolInject<T> : IEcsDataInject where T : struct {
+    public struct EcsPoolInject<T> : IEcsDataInject where T : struct, IComponent {
         public EcsPool<T> Value;
         string _worldName;
 
@@ -166,7 +166,7 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1> : IEcsInclude
-        where T1 : struct {
+        where T1 : struct, IComponent {
         public EcsPool<T1> Inc1;
 
         public EcsWorld.Mask Fill (EcsWorld world) {
@@ -180,7 +180,8 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2> : IEcsInclude
-        where T1 : struct where T2 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
 
@@ -192,7 +193,9 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3> : IEcsInclude
-        where T1 : struct where T2 : struct where T3 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -206,7 +209,10 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3, T4> : IEcsInclude
-        where T1 : struct where T2 : struct where T3 : struct where T4 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -222,7 +228,12 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3, T4, T5> : IEcsInclude
-        where T1 : struct where T2 : struct where T3 : struct where T4 : struct where T5 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent
+        where T5 : struct, IComponent
+    {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -240,12 +251,12 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3, T4, T5, T6> : IEcsInclude
-        where T1 : struct
-        where T2 : struct
-        where T3 : struct
-        where T4 : struct
-        where T5 : struct
-        where T6 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent
+        where T5 : struct, IComponent
+        where T6 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -265,13 +276,13 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3, T4, T5, T6, T7> : IEcsInclude
-        where T1 : struct
-        where T2 : struct
-        where T3 : struct
-        where T4 : struct
-        where T5 : struct
-        where T6 : struct
-        where T7 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent
+        where T5 : struct, IComponent
+        where T6 : struct, IComponent
+        where T7 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -293,14 +304,14 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Inc<T1, T2, T3, T4, T5, T6, T7, T8> : IEcsInclude
-        where T1 : struct
-        where T2 : struct
-        where T3 : struct
-        where T4 : struct
-        where T5 : struct
-        where T6 : struct
-        where T7 : struct
-        where T8 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent
+        where T5 : struct, IComponent
+        where T6 : struct, IComponent
+        where T7 : struct, IComponent
+        where T8 : struct, IComponent {
         public EcsPool<T1> Inc1;
         public EcsPool<T2> Inc2;
         public EcsPool<T3> Inc3;
@@ -324,28 +335,34 @@ namespace Leopotam.EcsLite.Di {
     }
 
     public struct Exc<T1> : IEcsExclude
-        where T1 : struct {
+        where T1 : struct, IComponent {
         public EcsWorld.Mask Fill (EcsWorld.Mask mask) {
             return mask.Exc<T1> ();
         }
     }
 
     public struct Exc<T1, T2> : IEcsExclude
-        where T1 : struct where T2 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent {
         public EcsWorld.Mask Fill (EcsWorld.Mask mask) {
             return mask.Exc<T1> ().Exc<T2> ();
         }
     }
 
     public struct Exc<T1, T2, T3> : IEcsExclude
-        where T1 : struct where T2 : struct where T3 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent {
         public EcsWorld.Mask Fill (EcsWorld.Mask mask) {
             return mask.Exc<T1> ().Exc<T2> ().Exc<T3> ();
         }
     }
 
     public struct Exc<T1, T2, T3, T4> : IEcsExclude
-        where T1 : struct where T2 : struct where T3 : struct where T4 : struct {
+        where T1 : struct, IComponent
+        where T2 : struct, IComponent
+        where T3 : struct, IComponent
+        where T4 : struct, IComponent {
         public EcsWorld.Mask Fill (EcsWorld.Mask mask) {
             return mask.Exc<T1> ().Exc<T2> ().Exc<T3> ().Exc<T4> ();
         }
